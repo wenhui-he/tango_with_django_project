@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load staticfiles %}  <!--表示在template中要使用static files-->
+<html lang="en">
+
+<head>
+    <title>Rango</title>
+</head>
+
+<body>
+    <h1>Rango says...</h1>
+    <div>
+        hey there parter!<br />
+        <strong>{{ boldmessage }}</strong><br />
+    </div>
+
+    <div>
+        <h2>Most Liked Categories</h2>
+        {% if categories %}
+        <ul>
+            {% for category in categories %}
+            <!--url最后的/一定要加，不加会出现问题-->
+            <li><a href="/rango/category/{{ category.slug }}/">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <strong>There are no categories present.</strong>
+        {% endif %}
+    </div>
+
+    <div>
+        <h2>Most Viewed Pages</h2>
+        {% if pages %}
+        <ul>
+            {% for page in pages %}
+            <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <strong>There are no pages present.</strong>
+        {% endif %}
+    </div>
+
+    <div>
+        <a href="/rango/about/">About</a><br />
+        <!--要展示的static file路径，放在大括号百分号单引号的中， static会把STATIC——URL和后面文件路径合并-->
+        <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
+    </div>
+</body>
+</html>
