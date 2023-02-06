@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rango</title>
+    </head>
+
+    <body>
+        <h1>Add a Page {{ category.name }}</h1>
+
+        <div>
+            <!-- 表单中所有信息都发送至 "/rango/add_category/" URL 中-->
+            <form id="add_page_form" method="post" action="/rango/category/{{category.slug}}/add_page/">
+                {% csrf_token %}
+                <!-- control hidden form fields -->
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                <!-- control visible form fields -->
+                {% for field in form.visible_fields %}
+                    <!--还添加了特定字段可能出现的任何错误
+                    以及可用于向用户解释他或她需要输入的内容的帮助文本-->
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                    {{ field }}
+                {% endfor %}
+                <input type="submit" name="submit" value="Add Page" />
+            </form>
+        </div>
+    </body>
+</html>
