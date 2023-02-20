@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Rango</title>
-    </head>
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
 
-    <body>
-        <h1>Add a Page {{ category.name }}</h1>
+{% block title_block %}
+    Add a Page
+{% endblock %}
 
+{% block body_block %}
+    <h1>Add a Page {{ category.name }}</h1>
         <div>
             <!-- 表单中所有信息都发送至 "/rango/add_category/" URL 中-->
-            <form id="add_page_form" method="post" action="/rango/category/{{category.slug}}/add_page/">
+            <form id="add_page_form" method="post" action="{% url 'rango:add_page' category.slug %}">
                 {% csrf_token %}
                 <!-- control hidden form fields -->
                 {% for hidden in form.hidden_fields %}
@@ -26,5 +26,4 @@
                 <input type="submit" name="submit" value="Add Page" />
             </form>
         </div>
-    </body>
-</html>
+{% endblock %}

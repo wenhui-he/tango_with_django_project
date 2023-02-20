@@ -30,6 +30,10 @@ def index(request):
 
 def about(request):
     context_dict = {'boldmessage': 'This tutorial has been put together by Nori'}
+    # prints out whether the method is a GET or a POST
+    print(request.method)
+    # prints out the user name, if no one is logged in it prints ÀnonymousUser`
+    print(request.user)
     return render(request, 'rango/about.html', context=context_dict)
 
 
@@ -74,7 +78,7 @@ def add_category(request):
             # Now that the category is saved, we could confirm this.
             # For now, just redirect the user back to the index view.
             # 情况1：表单提交成功，重新定向
-            return redirect('/rango/')
+            return redirect('rango/index.html')
         else:
             # The supplied form contained errors -
             # just print them to the terminal.
@@ -95,7 +99,7 @@ def add_page(request, category_name_slug):
 
     # You cannot add a page to a Category that does not exist...
     if category is None:
-        return redirect('/rango/')
+        return redirect('rango/index.html')
 
     form = PageForm()
 
@@ -109,6 +113,7 @@ def add_page(request, category_name_slug):
                 page.category = category
                 page.views = 0
                 page.save()
+                # 下面url这个写法只有在reverse中才能这么写？
                 return redirect(reverse('rango:show_category',
                                         kwargs={'category_name_slug':
                                                     category_name_slug}))
